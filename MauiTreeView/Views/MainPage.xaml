@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.TreeView;assembly=Syncfusion.Maui.TreeView"
+             xmlns:treeviewengine="clr-namespace:Syncfusion.TreeView.Engine;assembly=Syncfusion.Maui.TreeView"
+             xmlns:local="clr-namespace:MauiTreeView"
+             x:Class="MauiTreeView.MainPage">
+
+    <ContentPage.BindingContext>
+        <local:FileManagerViewModel x:Name="viewModel"/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <syncfusion:SfTreeView x:Name="treeView" 
+                            ItemTemplateContextType="Node"
+                            ItemsSource="{Binding Folders}" 
+                            ItemHeight="40" 
+                            ExpanderWidth="40">
+            <syncfusion:SfTreeView.Behaviors>
+                <local:Behavior/>
+            </syncfusion:SfTreeView.Behaviors>
+            <syncfusion:SfTreeView.HierarchyPropertyDescriptors>
+                <treeviewengine:HierarchyPropertyDescriptor TargetType="{x:Type local:Folder}" ChildPropertyName="Files"/>
+                <treeviewengine:HierarchyPropertyDescriptor TargetType="{x:Type local:File}" ChildPropertyName="SubFiles"/>
+            </syncfusion:SfTreeView.HierarchyPropertyDescriptors>
+            <syncfusion:SfTreeView.ItemTemplate>
+                <DataTemplate >
+                    <Grid Padding ="0,0,20,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Padding="5,5,5,5">
+                            <Image
+                             Source="{Binding Content.ImageIcon}"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             HeightRequest="35" 
+                             WidthRequest="35"/>
+                        </Grid>
+                        <Label Text="{Binding Content.FileName}" 
+                            Grid.Column="1"
+                            VerticalTextAlignment="Center" 
+                            FontSize="16" />
+                    </Grid>
+                </DataTemplate>
+            </syncfusion:SfTreeView.ItemTemplate>
+        </syncfusion:SfTreeView>
+    </ContentPage.Content>
+
+
+</ContentPage>
